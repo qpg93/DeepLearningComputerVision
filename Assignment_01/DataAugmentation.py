@@ -14,6 +14,7 @@ def crop(img):
     row = img.shape[0]
     col = img.shape[1]
 
+    # # At least 70% of the original image
     row_crop = round(row*random.uniform(0.7,1))
     col_crop = round(row*random.uniform(0.7,1))
 
@@ -68,8 +69,8 @@ def color_shift(img):
 
 # Rotation
 def rotation(img):
-    angle = random.randint(-90, 90)
-    scale = round(random.uniform(0.5,1.5), 3)
+    angle = random.randint(-45, 45) # From -45° to +45°
+    scale = round(random.uniform(0.5,1.5), 3) # Zoom 50% - 150%
     M = cv2.getRotationMatrix2D((img.shape[1]/2, img.shape[0]/2), angle, scale) # centering, angle, scale
     img_rotate = cv2.warpAffine(img, M, (img.shape[1], img.shape[0])) # apply to the image
     return img_rotate
@@ -80,7 +81,7 @@ def perspective_transform(img):
     height, width, channels = img.shape
     
     # Warp
-    random_margin = 60
+    random_margin = 30
     x1 = random.randint(-random_margin, random_margin)
     y1 = random.randint(-random_margin, random_margin)
     x2 = random.randint(width-1-random_margin, width-1)
@@ -109,10 +110,12 @@ def perspective_transform(img):
     
     return img_warp
 
-img = cv2.imread("mark.jpg")
+img = cv2.imread("image.jpg")
 for i in range(20):
+    # Combine 4 transforms randomly for every image
     img_a = rotation(img)
     img_b = crop(img_a)
     img_c = perspective_transform(img_b)
     img_d = color_shift(img_c)
-    cv2.imwrite("img/mark"+str(i)+".jpg", img_d)
+    # Save the generated image
+    cv2.imwrite("image_"+str(i+1)+".jpg", img_d)
