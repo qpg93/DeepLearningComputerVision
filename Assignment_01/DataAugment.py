@@ -43,6 +43,7 @@ def color_shift(img, shift=50):
 
     # Brightness
     B, G, R = cv2.split(img)
+    print(B)
     
     b_rand = random.randint(-abs(shift), abs(shift))
     if b_rand == 0:
