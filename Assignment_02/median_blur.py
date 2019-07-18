@@ -42,24 +42,34 @@ def medianBlur(img, kernel, padding_way):
     #if m%2 == 0 or n%2 == 0:
     #    return None
 
-    # Size of augmented image with padding = W + 2*(m-1)/2, H + 2*(n-1)/2
-    
+    # Size of augmented image with padding = W + 2*(m-1)/2, H + 2*(n-1)/2   
     # Padding
     a = int((m - 1) / 2)
     b = int((n - 1) / 2)
-
-    W_aug = W + 2*a
-    H_aug = H + 2*b
+    # Augmented W and H
+    Wa = W + 2*a
+    Ha = H + 2*b
 
     # Initialization of the augmented padding image with all 0
-    img_aug = [[0 for x in range(W_aug)] for y in range(H_aug)]
+    img_aug = [[0 for x in range(Wa)] for y in range(Ha)]
     # Original image in the center
-    img_aug[b:H_aug-b-1][a:W_aug-a-1] = img[:][:]
+    img_aug[b:H-1+b][a:W-1+a] = img[:][:]
 
     if padding_way == "ZERO":
         pass
     elif padding_way == "REPLICA":
         # 4 corners
+        for i in range(b):
+            for j in range(a):
+                img_aug[i][j] = img[0][0]
+                img_aug[i][]
+        
+        
+        
+        
+        
+        
+        
         img_aug[0:b-1][0:a-1] = img[0][0]
         img_aug[0:b-1][W_aug-a:W_aug-1] = img[0][W-1]
         img_aug[H_aug-b:H_aug-1][0:a-1] = img[H-1][0]
