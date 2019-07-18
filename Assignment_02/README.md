@@ -1,4 +1,21 @@
-## Convolutional Filtering
+﻿## Convolutional Filtering
+
+### Gaussian blur
+slkdfklsf
+qklsjdlfq
+
+
+### Bilateral filter
+A __bilateral filter__ is a __non linear__, __edge-preserving__ and __noise-reducing smoothing__ filter.  
+It replaces the intensity of each pixel with a weighted average of intensity values from nearby pixels. This weight can be based on a Gaussian distribution. Crucially, the weights depend not only on Euclidean distance of pixels, but also on the radiometric differences (e.g., range differences, such as color intensity, depth distance, etc.). This preserves sharp edges.  
+双边滤波是采用加权平均的方法，用周边像素亮度值的加权平均代表某个像素的强度，所用的加权平均基于高斯分布。最重要的是，双边滤波的权重不仅考虑了像素的欧氏距离（如普通的高斯低通滤波，只考虑了位置对中心像素的影响），还考虑了像素范围域中的辐射差异（例如卷积核中像素与中心像素之间相似程度、颜色强度，深度距离等），在计算中心像素的时候同时考虑这两个权重。 
+
+### Conclusion
+Averaging blur: fastest, can't keep edges  
+Gaussian blur: slow, keep edges well
+Median blur: can remove salt-and-pepper noises
+Bilateral blur: sloweset, keep edges best
+
 
 * Reading
 1. bilateral filter
