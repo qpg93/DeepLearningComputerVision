@@ -1,7 +1,8 @@
 '''
-Date: 20190702
-Author: Qing Peng
+20190718 by Qing Peng
+Formatting with class and call
 
+20190702 by Qing Peng
 This script is for the data augmentation of images. It is based on traditional computer vision techniques, including image crop, color shift, rotation and perspective transform.
 '''
 
