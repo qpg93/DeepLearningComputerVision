@@ -1,5 +1,5 @@
 ## Data Augmentation of Images
-__DataAugment_X.py__ is the script for generating images in the purpose of data augmentation. The script is based on traditional computer vision techniques, including the functions below:  
+Here are the scripts for generating images in the purpose of data augmentation. The script is based on traditional computer vision techniques, including the functions below:  
 * Image crop
 * Color shift
 * Rotation transform
@@ -14,11 +14,11 @@ __DataAugment_Auto.py__ is the first script created, which can automatically and
 
 ### 2. DataAugment.py
 __DataAugment.py__ is the script more adaped to industrial use. All images in the input directory will be processed and saved to the output directory.
-#### 1. User guide
+#### 2.1 User guide
 ```bash
 python DataAugment.py -h
 ```
-#### 2. Examples
+#### 2.2 Examples
 * Image crop
 ```bash
 python DataAugment.py --img_input "image_input_dir" --img_output "image_output_dir" --scale  0.7
