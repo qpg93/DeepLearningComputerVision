@@ -73,15 +73,15 @@ def medianBlur(img, kernel, padding_way):
     img_median = [[0 for x in range(W)] for y in range(H)]
     flat_window = []
     for i in range(H):
-            for j in range(W):
-                # Center of window: img_aug[i+b][j+a]
-                window = img_aug[i:i+n-1][j:j+m-1]
+        for j in range(W):
+            # Center of window: img_aug[i+b][j+a]
+            window = img_aug[i:i+n-1][j:j+m-1]
 
-                for k in range(len(window)):
-                    flat_window = flat_window + window[k][:]
+            for k in range(len(window)):
+                flat_window = flat_window + window[k][:]
 
-                # Get median of all elements in the window
-                img_median[i][j] = statistics.median(flat_window)
+            # Get median of all elements in the window
+            img_median[i][j] = statistics.median(flat_window)
 
     return img_median
 

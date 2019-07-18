@@ -1,8 +1,3 @@
-import statistics
-a = [[1,2,3],[0,0,0]]
-b = []
-for i in range(len(a)):
-    b = b + a[i] 
-c = statistics.median(b)
-
-print(c)
+kernel = [[1,1,1],[1,1,1],[1,1,1],[1,1,1]]
+m, n = len(kernel[0]), len(kernel)
+print(n)
