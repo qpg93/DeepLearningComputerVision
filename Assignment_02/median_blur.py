@@ -62,18 +62,10 @@ def medianBlur(img, kernel, padding_way):
         for i in range(b):
             for j in range(a):
                 img_aug[i][j] = img[0][0]
-                img_aug[i][]
-        
-        
-        
-        
-        
-        
-        
-        img_aug[0:b-1][0:a-1] = img[0][0]
-        img_aug[0:b-1][W_aug-a:W_aug-1] = img[0][W-1]
-        img_aug[H_aug-b:H_aug-1][0:a-1] = img[H-1][0]
-        img_aug[H_aug-b:H_aug-1][W_aug-a:W_aug-1] = img[H-1][W-1]
+                img_aug[i][j+W+a] = img[0][W-1]
+                img_aug[i+H+b][j] = img[H-1][0]
+                img_aug[i+H+b][j+W+a] = img[H-1][W-1]
+
         # 4 borders
         img_aug[0:b-1][a:W_aug-1-a] = img[0][:]
         img_aug[b:H_aug-1-b][0:a-1] = img[:][0]
