@@ -119,6 +119,11 @@ cv2.destroyAllWindows()
 5. Orientation Assignment
 6. Keypoint Descriptor
 """
+"""To use SIFT, uninstall all other opencv
+pip install opencv-python==3.4.2.16
+pip install opencv-contrib-python==3.4.2.16
+"""
+
 img = cv2.imread('lenna.png')
 # Create SIFT class
 sift = cv2.xfeatures2d.SIFT_create()
