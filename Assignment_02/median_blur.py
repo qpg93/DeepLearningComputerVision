@@ -20,7 +20,7 @@
 
 """
 20190717 by Qing Peng
-
+Realize the median blur image by using a sliding window on an image to find the median value within that crop
 """
 
 import numpy as np
@@ -78,7 +78,7 @@ def medianBlur(img, kernel, padding_way):
             window = img_aug[i:i+n-1][j:j+m-1]
 
             for k in range(len(window)):
-                flat_window = flat_window + window[k][:]
+                flat_window.append(window[k][:])
 
             # Get median of all elements in the window
             img_median[i][j] = statistics.median(flat_window)
