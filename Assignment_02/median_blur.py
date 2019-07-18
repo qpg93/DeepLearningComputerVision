@@ -36,7 +36,7 @@ def medianBlur(img, kernel, padding_way):
 
     # Get image size and kernel size
     W, H = img.shape[:2]
-    m, n = kernel.shape[:2]
+    m, n = len(kernel[0]), len(kernel)
 
     #if m%2 == 0 or n%2 == 0:
     #    return None
@@ -44,8 +44,8 @@ def medianBlur(img, kernel, padding_way):
     # Size of augmented image with padding = W + 2*(m-1)/2, H + 2*(n-1)/2
     
     # Padding
-    a = (m - 1) / 2
-    b = (n - 1) / 2
+    a = int((m - 1) / 2)
+    b = int((n - 1) / 2)
 
     W_aug = W + 2*a
     H_aug = H + 2*b
@@ -71,26 +71,31 @@ def medianBlur(img, kernel, padding_way):
 
     # Initialization of final image with all 0
     img_median = [[0 for x in range(W)] for y in range(H)]
-    for i, j in range(H), range(W):
+    flat_window = []
+    for i in range(H):
+            for j in range(W):
+                # Center of window: img_aug[i+b][j+a]
+                window = img_aug[i:i+n-1][j:j+m-1]
 
-        # Center of window: img_aug[i+b][j+a]
-        window = img_aug[i:i+n-1][j:j+m-1]
+                for k in range(len(window)):
+                    flat_window = flat_window + window[k][:]
 
-        flat_window = []
-        for k in range(len(window)):
-            flat_window = flat_window + window[k]
-
-        # Get median of all elements in the window
-        img_median[i][j] = statistics.median(flat_window)
+                # Get median of all elements in the window
+                img_median[i][j] = statistics.median(flat_window)
 
     return img_median
 
-img = cv2.imread("image.jpg")
+img = cv2.imread("lenna.png")
+cv2.imshow("lenna", img)
+key = cv2.waitKey(0)
+cv2.destroyAllWindows()
+
 B, G, R = cv2.split(img)
-knl = np.ones((5,5),np.float32)
+knl = [[1,1,1],[1,1,1],[1,1,1],[1,1,1],[1,1,1]]
 B_mb = medianBlur(B, knl, "ZERO")
 G_mb = medianBlur(G, knl, "ZERO")
 R_mb = medianBlur(R, knl, "ZERO")
+print(B_mb)
 img_merge = cv2.merge((B_mb, G_mb, R_mb))
 cv2.imshow("median_blur_lenna", img_merge)
 key = cv2.waitKey(0)
