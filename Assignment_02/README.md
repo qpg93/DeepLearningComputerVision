@@ -46,9 +46,8 @@ Reference: [SURF: Speeded Up Robust Features](https://www.vision.ee.ethz.ch/~sur
  a. BRISK http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.371.1343&rep=rep1&type=pdf
  b. Orb http://www.willowgarage.com/sites/default/files/orb_final.pdf
 
+#### RANSAC
 
-* Coding
-1. 2D convolution filtering
 2. reading + pseudo code
 ```python
 #       We haven't told RANSAC algorithm this week. So please try to do the reading.

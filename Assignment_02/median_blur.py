@@ -1,4 +1,7 @@
 """
+20190719 by Qing Peng
+Major update by using numpy to deal with padding
+
 20190718 by Qing Peng
 Upgrade the padding way part
 Issues exist in line 97: no median for empty data
@@ -9,91 +12,70 @@ Realize the median blur image by using a sliding window on an image to find the 
 
 import numpy as np
 import cv2
-import statistics
+import math
 
-def medianBlur(img, kernel, padding_way):
-    """
-    img: list of list
-    kernel: list of list
-    padding_way: string
-    """
+class imageBlur:
+    def medianBlur(self, img, kernel=(3,3), padding_way='ZERO'):
+        """
+        img: list of list
+        kernel: list of list
+        padding_way: string
+        """
+        
+        # Check padding_way
+        padding_way = padding_way.upper()
+        allowed = {'ZERO', 'REPLICA'}
+        if padding_way not in allowed:
+            raise ValueError('The `padding` argument must be `ZERO` or `REPLICA. Received: '+str(padding_way))
 
-    # Get image size and kernel size
-    W, H = img.shape[:2]
-    m, n = len(kernel[0]), len(kernel)
+        # Initialize the transformed image
+        output = np.zeros_like(img) # Same size as img, initialized with 0
+        img_shape = img.shape
 
-    #if m%2 == 0 or n%2 == 0:
-    #    return None
+        # Padding
+        # math.ceil(x) Return the ceiling of x as a float, the smallest integer value greater than or equal to x
+        padding = ((math.ceil(kernel[0]/2),),(math.ceil(kernel[1]/2),)) # Tuple: rows, cols
+        
+        if len(img_shape) == 3:
+            padding += ((0,),)
+        
+        # padding: ((2,), (2,), (0,))
+  
+        """padding[0][0] = 3, padding[1][-1] = 3
+        >>> a = [[1,2], [3,4]]
+        >>< np.lib.pad(a, ((3, 2), (2, 3)), 'minimum')
+        array([[1, 1, 1, 2, 1, 1, 1],
+                [1, 1, 1, 2, 1, 1, 1],
+                [1, 1, 1, 2, 1, 1, 1],
+                [1, 1, 1, 2, 1, 1, 1],
+                [3, 3, 3, 4, 3, 3, 3],
+                [1, 1, 1, 2, 1, 1, 1],
+                [1, 1, 1, 2, 1, 1, 1]])
+        """
 
-    # Size of augmented image with padding = W + 2*(m-1)/2, H + 2*(n-1)/2   
-    # Padding
-    a = int((m - 1) / 2)
-    b = int((n - 1) / 2)
-    # Augmented W and H
-    Wa = W + 2*a
-    Ha = H + 2*b
+        if padding_way == 'ZERO':
+            img = np.lib.pad(img, padding, mode='constant', constant_values=0)
+        if padding_way == 'REPLICA':
+            img = np.lib.pad(img, padding, mode='edge')
 
-    # Initialization of the augmented padding image with all 0
-    img_aug = [[0 for x in range(Wa)] for y in range(Ha)]
-    # Original image in the center
-    for i in range(H):
-        for j in range(W):
-            img_aug[i+b][j+a] = img[i][j]
+        # Generate new image with median
+        for j in range(img_shape[1]):
+            for i in range(img_shape[0]):
+                window = img[i:i+padding[0][0]*2, j:j+padding[1][0]*2]
+                # window = img[i+1 : i+padding[0][0]*2+2, j+1 : j+padding[1][-1]*2+2]
+                output[i, j, :] = np.median(window, axis=(0,1))
 
-    if padding_way == "ZERO":
-        pass
-    elif padding_way == "REPLICA":
-        # 4 corners
-        for i in range(b):
-            for j in range(a):
-                img_aug[i][j] = img[0][0]
-                img_aug[i][j+W+a] = img[0][W-1]
-                img_aug[i+H+b][j] = img[H-1][0]
-                img_aug[i+H+b][j+W+a] = img[H-1][W-1]
+        return output
 
-        # 4 borders
-        for i in range(H):
-            for j in range(a):
-                img_aug[i+b][j] = img[i][0]
-                img_aug[i+b][j+W-1] = img[i][W-1]
-        for i in range(b):
-            for j in range(W):
-                img_aug[i][j+a] = img[0][j]
-                img_aug[i+H-1][j+a] = img[H-1][j]
+if __name__ == "__main__":
+    img = cv2.imread('lenna.png')
+    lennaBlur = imageBlur()
+    img_myblur = lennaBlur.medianBlur(img, kernel=(3,3), padding_way="REPLICA")
+    img_cvblur = cv2.medianBlur(img, 3)
 
-    # Initialization of final image with all 0
-    img_median = [[0 for x in range(W)] for y in range(H)]
-    for i in range(H):
-        for j in range(W):
-            flat_window = []
-            # Center of window: img_aug[i+b][j+a]
-            window = img_aug[i:i+n-1][j:j+m-1]
+    cv2.imshow('lenna', img)
+    cv2.imshow('my_median_blur_lenna', img_myblur)
+    cv2.imshow('cv2_median_blur_lenna', img_cvblur)
+    key = cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
-            for k in range(len(window)):
-                flat_window = flat_window + window[k]
-
-            # Get median of all elements in the window
-            img_median[i][j] = statistics.median(flat_window)
-
-    return img_median
-
-img = cv2.imread("lenna.png")
-cv2.imshow("lenna", img)
-key = cv2.waitKey(0)
-cv2.destroyAllWindows()
-
-img_cvMB = cv2.medianBlur(img, 5)
-cv2.imshow("cv2_median_blur_lenna", img_cvMB)
-key = cv2.waitKey(0)
-cv2.destroyAllWindows()
-
-B, G, R = cv2.split(img)
-knl = [[1,1,1],[1,1,1],[1,1,1],[1,1,1],[1,1,1]] # Actually only the kernel size matters
-B_mb = medianBlur(B, knl, "REPLICA")
-G_mb = medianBlur(G, knl, "REPLICA")
-R_mb = medianBlur(R, knl, "REPLICA")
-print(B_mb)
-img_myMB = cv2.merge((B_mb, G_mb, R_mb))
-cv2.imshow("my_median_blur_lenna", img_myMB)
-key = cv2.waitKey(0)
-cv2.destroyAllWindows()
