@@ -42,11 +42,11 @@ To detect interest points, SURF uses an integer approximation of the __determina
 
 Reference: [SURF: Speeded Up Robust Features](https://www.vision.ee.ethz.ch/~surf/eccv06.pdf)
 
-#### BRISK & ORB
+#### 3.3 BRISK & ORB
  a. BRISK http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.371.1343&rep=rep1&type=pdf
  b. Orb http://www.willowgarage.com/sites/default/files/orb_final.pdf
 
-#### Ramdom Sample Consensus (RANSAC)
+### 4. Ramdom Sample Consensus (RANSAC)
 It is an iterative method to estimate parameters of a mathematical model from a set of observed data that contains outliers, when outliers are to be accorded no influence on the values of the estimates. It also can be interpreted as an outlier detection method.  
 1. Select a random subset of the original data. Call it _hypothetical inliers_.
 2. Fit a model to the set of hypothetical inliers.
@@ -95,7 +95,9 @@ return bestFit
 ```
 
 __Pseudo code of _ransacMatching___  
-We have 2 sets of points, say, Points A and Points B. We use A.1 to denote the first point in A, B.2 the 2nd point in B and so forth. Ideally, A.1 is corresponding to B.1, ... A.m corresponding B.m. However, it's obvious that the matching cannot be so perfect and the matching in our real world is like A.1-B.13, A.2-B.24, A.3-x (has no matching), x-B.5, A.4-B.24(This is a wrong matching) ... The target is to find out the true matching within this messy.
+We have 2 sets of points, say, Points A and Points B. We use A.1 to denote the first point in A, B.2 the 2nd point in B and so forth. Ideally, A.1 is corresponding to B.1, ... A.m corresponding B.m.  
+However, it's obvious that the matching cannot be so perfect and the matching in our real world is like A.1-B.13, A.2-B.24, A.3-x (has no matching), x-B.5, A.4-B.24(This is a wrong matching) ...  
+The target is to find out the true matching within this messy.
 ```python
 def ransacMatching(A, B):
     # A & B: List of List
