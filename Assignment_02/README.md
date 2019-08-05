@@ -46,39 +46,94 @@ Reference: [SURF: Speeded Up Robust Features](https://www.vision.ee.ethz.ch/~sur
  a. BRISK http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.371.1343&rep=rep1&type=pdf
  b. Orb http://www.willowgarage.com/sites/default/files/orb_final.pdf
 
-#### RANSAC
+#### Ramdom Sample Consensus (RANSAC)
+It is an iterative method to estimate parameters of a mathematical model from a set of observed data that contains outliers, when outliers are to be accorded no influence on the values of the estimates. It also can be interpreted as an outlier detection method.  
+1. Select a random subset of the original data. Call it _hypothetical inliers_.
+2. Fit a model to the set of hypothetical inliers.
+3. All other data are then tested against the fitted model. Those points that fit the estimated model well, according to some model-specific _loss function_, are considered as part of the _consensus set_.
+4. The estimated model is reasonably good if sufficiently many points have been classified as part of the consensus set.
+5. The model may be improved by reestimating it using all members of the consensus set.
+This procedure is repeated a fixed number of times, each time producing either a model which is rejected because too few points are part of the consensus set, or a refined model together with a corresponding consensus set size. In the latter case, we keep the refined model if its consensus set is larger than the previously saved model.  
 
-2. reading + pseudo code
+__Pseudo code of general RANSAC__
 ```python
-#       We haven't told RANSAC algorithm this week. So please try to do the reading.
-#       And now, we can describe it here:
-#       We have 2 sets of points, say, Points A and Points B. We use A.1 to denote the first point in A, 
-#       B.2 the 2nd point in B and so forth. Ideally, A.1 is corresponding to B.1, ... A.m corresponding 
-#       B.m. However, it's obvious that the matching cannot be so perfect and the matching in our real
-#       world is like: 
-#       A.1-B.13, A.2-B.24, A.3-x (has no matching), x-B.5, A.4-B.24(This is a wrong matching) ...
-#       The target of RANSAC is to find out the true matching within this messy.
-#       
-#       Algorithm for this procedure can be described like this:
-#       1. Choose 4 pair of points randomly in our matching points. Those four called "inlier" (chinese: neidian) while 
-#          others "outlier" (chinese: waidian)
-#       2. Get the homography of the inliers
-#       3. Use this computed homography to test all the other outliers. And separated them by using a threshold 
-#          into two parts:
-#          a. new inliers which is satisfied our computed homography
-#          b. new outliers which is not satisfied by our computed homography.
-#       4. Get our all inliers (new inliers + old inliers) and goto step 2
-#       5. As long as there's no changes or we have already repeated step 2-4 k, a number actually can be computed,
-#          times, we jump out of the recursion. The final homography matrix will be the one that we want.
-#
-#       [WARNING!!! RANSAC is a general method. Here we add our matching background to that.]
-#
-#       Your task: please complete pseudo code (it would be great if you hand in real code!) of this procedure.
-#
-#       Python:
-#       def ransacMatching(A, B):
-#           A & B: List of List
-#
+inputs:
+    data:        a set of observations
+    model:       a model to explain observed data points
+    n:           minimum number of data points required to estimated model parameters
+    k:           maximum number of iterations allowed in the algorithm
+    t:           threshold value to determine data points that are fit well by model
+    d:           number of close data points required to assert that a model fits well to data
+outpus:
+    bestFit:     model parameters which best fit the data (or null if no good model is found)
+    
+iterations = 0
+bestFit = null
+bestErr = something really large
+
+while (iterations < k):
+    maybeInliers = n randomly selected values from data
+    maybeModel = model parameters fitted to maybeInliers
+    alsoInliers = empty set
+    
+    for every point in data not in maybeInliers:
+        if point fits maybeModel with an error < t:
+            add point to alsoInliers
+    
+    if (the number of elements in alsoInliers > d):
+        # this implies that we may have found a good model
+        # now test how good it is
+        betterModel = model parameters fitted to all points in maybeInliers and alsoInliers
+        thisErr = a measure of how well betterModel fits these points
+        if (thisErr < bestErr):
+            bestFit = betterModel
+            bestErr = thisErr
+    
+    iterations += 1
+
+return bestFit
+```
+
+__Pseudo code of _ransacMatching___  
+We have 2 sets of points, say, Points A and Points B. We use A.1 to denote the first point in A, B.2 the 2nd point in B and so forth. Ideally, A.1 is corresponding to B.1, ... A.m corresponding B.m. However, it's obvious that the matching cannot be so perfect and the matching in our real world is like A.1-B.13, A.2-B.24, A.3-x (has no matching), x-B.5, A.4-B.24(This is a wrong matching) ... The target is to find out the true matching within this messy.
+```python
+def ransacMatching(A, B):
+    # A & B: List of List
+    iterations = 0
+    k = max number of iterations
+    
+    bestFit = null
+    bestErr = something really large
+    
+    while (iterations < k):
+        maybePairA = 4 randomly selected items from A
+        maybePairB = 4 corresponding items from B (with same index)
+        maybeModel = model parameters fitted to maybePairA and maybePairB (use tools e.g. linear regression)
+        alsoPairA = empty
+        alsoPairB = empty
+        
+        for every pairA in data not in maybePairA: 
+            for every pairB in data not in maybePairB: 
+                if pairA and pairB fit maybeModel with an error < t:
+                    add pairA to alsoPairA
+                    add pairB to alsoPairB
+        
+        if (number of elements in alsoPairA > d):
+            # this implies that we may have found a good model
+            # now test how good it is
+            betterModel = model parameters fitted to all points in maybePair and alsoPair
+            thisErr = a measure of how well betterModel fits these points (use tools e.g. mean square error)
+            if (thisErr < bestErr):
+                bestFit = betterModel
+                bestErr = thisErr
+        
+        iterations += 1
+
+    # use the bestModel to find the A-matched B list
+    matchedA = A
+    matchedB = bestFit(A)
+    
+    return matchedA, matchedB
 ```
 
 Classical Image Stitching  
