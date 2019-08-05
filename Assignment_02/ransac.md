@@ -1,6 +1,6 @@
 # Random Sample Consensus (RANSAC)
 
-__Pseudo code of general RANSAC__
+### Pseudo code of general RANSAC
 ```python
 inputs:
     data:        a set of observations
@@ -39,9 +39,11 @@ while (iterations < k):
 return bestFit
 ```
 
-__Pseudo code of _ransacMatching___  
+### Pseudo code of _ransacMatching_
 We have 2 sets of points, say, Points A and Points B. We use A.1 to denote the first point in A, B.2 the 2nd point in B and so forth. Ideally, A.1 is corresponding to B.1, ... A.m corresponding B.m.  
+
 However, it's obvious that the matching cannot be so perfect and the matching in our real world is like A.1-B.13, A.2-B.24, A.3-x (has no matching), x-B.5, A.4-B.24(This is a wrong matching) ...  
+
 The target is to find out the true matching within this messy.
 ```python
 def ransacMatching(A, B):
