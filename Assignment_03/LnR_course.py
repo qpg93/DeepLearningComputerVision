@@ -46,7 +46,7 @@ def train(x_list, gt_y_list, batch_size, lr, max_iter):
         # SGD: Stochastic Gradient Descent (applicable for batch_size = 1)
         ## Minibatch SGD (if batch_size > 1)
         ### Gradient Descent (if batch_size == num_samples)
-        batch_idxs = np.random.choice(num_samples, batch_size) # 
+        batch_idxs = np.random.choice(num_samples, batch_size) # Generate a random sample from a given 1-D array
         batch_x = [x_list[j] for j in batch_idxs]
         batch_gt_y = [gt_y_list[j] for j in batch_idxs]
         w, b = cal_step_gradient(batch_x, batch_gt_y, w, b, lr)
