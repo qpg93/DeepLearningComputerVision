@@ -1,4 +1,4 @@
-## Question
+## Maths Question
 
 ### Description
 A person is swimming across several rivers.  
@@ -16,3 +16,5 @@ You are not required to give out concrete angle numbers, a ___cost function___ t
 
 Tips: A mathematical tool you may need is called ___Lagrangian Multiplier___, which means, when you provide a formula, say ___E___, which still need to satisfy some more conditions, say ___a>1___, for the convenience of calculating, we can write those 2 parts (formula ___E___ and condition ___a>1___) together as one new formula. Here the new formula will be:
 > ___E - lambda(a - 1)___
+
+### Answer
