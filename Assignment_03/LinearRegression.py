@@ -82,7 +82,8 @@ def run():
     x_list, y_list, w, b = gen_sample_data()
     lr = 0.001 # if lr too big => gradient exploration => loss displayed as NaN for pytorch
     max_iter = 1000
-    train(x_list, y_list, 50, lr, max_iter)
+    batch_size = 50
+    train(x_list, y_list, batch_size, lr, max_iter)
     return None
 
 if __name__ == '__main__':
