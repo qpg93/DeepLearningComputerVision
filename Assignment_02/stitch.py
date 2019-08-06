@@ -1,5 +1,6 @@
 # Image stitching with OpenCV: more than 2 images together into a panoramic image
 
+# python stitch.py --image stitch_input --output stitch_output\output.jpg
 # Reference: https://www.pyimagesearch.com/2018/12/17/image-stitching-with-opencv-and-python/
 from imutils import paths
 import imutils
@@ -31,6 +32,7 @@ stitcher = cv2.Stitcher_create()
 if status == 0:
     # Write the output stitched image to disk
     cv2.imwrite(args["output"], stitched)
+    print("[INFO] image stitching succeeded ({})".format(status))
     cv2.imshow("Stitched", stitched)
     cv2.waitKey(0)
 # Otherwise the stitching failed, likely due to not enough keypoints being detected
