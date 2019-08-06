@@ -1,13 +1,13 @@
 ## Maths Question
 
 ### Description
-A person is swimming across several rivers.  
+A person is swimming across several rivers. The widths of rivers are: ___S1, S2, ..., Sn___.  
 
 Speeds of those rivers are different: ___v1, v2, ..., vn___. To simplify this problem, only consider the speed in vertical direction.  
 
 The person's swimming speed is a constant ___v___. The angle of the person's velocity to ho horizontal line is ___a1, a2, ..., an___.  
 
-The total time for swimming is T. And the person must pass those rivers.
+The total time for swimming is ___T___. And the person must pass those rivers.
 
 ### Task
 Find out an equation to determine by choosing what angles (___a1, a2, ..., an___) the person can get maxmimum distance in vertical direction. That is to say, please maximize ___dh___ by determine ___a1, a2, ..., an___) under the total time T.  
