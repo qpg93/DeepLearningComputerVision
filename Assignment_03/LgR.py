@@ -1,20 +1,20 @@
 # Logistic Regression with loss evolution plot
 
 import numpy as np
-from scipy.special import expit # Sigmoid
 import matplotlib.pyplot as plt
 
 # Get prediction: ^y
 def pred(w, b, x_list):
     x = np.array(x_list)
-    return w * x + b
+    z = w * x + b
+    return 1 / (1 + np.exp(-z)) # Sigmoid
 
 # Evaluation
 def eval_loss(w, b, x_list, gt_y_list):
     pred_y = pred(w, b, x_list)
     gt_y = np.array(gt_y_list)
     n = len(gt_y_list)
-    loss = -0.5 * (np.sum(gt_y * np.log(pred_y) + (1-gt_y) * np.log(1-pred_y))) / n
+    loss = -(np.sum(gt_y * np.log(pred_y) + (1-gt_y) * np.log(1-pred_y))) / n
     return loss
 
 # Calculate gradient of each step
