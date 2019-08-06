@@ -21,8 +21,8 @@ def eval_loss(w, b, x_list, gt_y_list):
 def cal_step_gradient(batch_x_list, batch_gt_y_list, w, b, lr):
     batch_size = len(batch_gt_y_list)
     x = np.array(batch_x_list)
-    pred_y = pred(w, b, batch_x_list)
     gt_y = np.array(batch_gt_y_list)
+    pred_y = pred(w, b, batch_x_list)
     dw = np.sum((pred_y - gt_y) * x) / batch_size
     db = np.sum((pred_y - gt_y)) / batch_size
     w -= lr * dw
@@ -44,7 +44,11 @@ def train(x_list, gt_y_list, batch_size, lr, max_iter):
         loss = eval_loss(w, b, x_list, gt_y_list)
         evol_loss.append(loss)
         print("Iteration {0}   w:{1}   b:{2}   loss:{3}".format(i, w, b, loss))
-    plt.plot(range(max_iter), evol_loss)
+    visu_loss(evol_loss)
+    return None
+
+def visu_loss(loss):
+    plt.plot(range(loss), loss)
     plt.xlabel("Iteration")
     plt.ylabel("Error")
     plt.grid(True)

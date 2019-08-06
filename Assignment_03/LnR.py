@@ -44,7 +44,11 @@ def train(x_list, gt_y_list, batch_size, lr, max_iter):
         loss = eval_loss(w, b, x_list, gt_y_list)
         evol_loss.append(loss)
         print("Iteration {0}   w:{1}   b:{2}   loss:{3}".format(i, w, b, loss))
-    plt.plot(range(max_iter), evol_loss)
+    visu_loss(evol_loss)
+    return None
+
+def visu_loss(loss):
+    plt.plot(range(len(loss)), loss)
     plt.xlabel("Iteration")
     plt.ylabel("Error")
     plt.grid(True)
