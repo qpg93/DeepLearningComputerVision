@@ -48,7 +48,7 @@ def train(x_list, gt_y_list, batch_size, lr, max_iter):
     return None
 
 def visu_loss(loss):
-    plt.plot(range(loss), loss)
+    plt.plot(range(len(loss), loss)
     plt.xlabel("Iteration")
     plt.ylabel("Error")
     plt.grid(True)
