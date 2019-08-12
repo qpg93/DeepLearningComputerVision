@@ -46,7 +46,7 @@ Reference: [SURF: Speeded Up Robust Features](https://www.vision.ee.ethz.ch/~sur
  a. BRISK http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.371.1343&rep=rep1&type=pdf
  b. Orb http://www.willowgarage.com/sites/default/files/orb_final.pdf
 
-### 4. Ramdom Sample Consensus (RANSAC)
+### 4. Random Sample Consensus (RANSAC)
 It is an iterative method to estimate parameters of a mathematical model from a set of observed data that contains outliers, when outliers are to be accorded no influence on the values of the estimates. It also can be interpreted as an outlier detection method.  
 1. Select a random subset of the original data. Call it _hypothetical inliers_.
 2. Fit a model to the set of hypothetical inliers.
