@@ -54,9 +54,3 @@ It is an iterative method to estimate parameters of a mathematical model from a 
 4. The estimated model is reasonably good if sufficiently many points have been classified as part of the consensus set.
 5. The model may be improved by reestimating it using all members of the consensus set.
 This procedure is repeated a fixed number of times, each time producing either a model which is rejected because too few points are part of the consensus set, or a refined model together with a corresponding consensus set size. In the latter case, we keep the refined model if its consensus set is larger than the previously saved model.  
-
-Classical Image Stitching  
-follow the instructions shown in the slides  
-inputs are two images  
-ouput is a stitched image  
-in 2-3 weeks
