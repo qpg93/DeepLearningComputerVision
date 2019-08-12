@@ -14,7 +14,7 @@ def eval_loss(w, b, x_list, gt_y_list):
     pred_y = pred(w, b, x_list)
     gt_y = np.array(gt_y_list)
     n = len(gt_y_list)
-    loss = (np.sum((pred_y - gt_y) ** 2)) / n
+    loss = 0.5 * (np.sum((pred_y - gt_y) ** 2)) / n
     return loss
 
 # Calculate gradient of each step

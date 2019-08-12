@@ -12,7 +12,7 @@ def eval_loss(w, b, x_list, gt_y_list):
     avg_loss = 0.0
     n = len(gt_y_list)
     for i in range(n):
-        avg_loss += (w * x_list[i] + b - gt_y_list[i]) ** 2
+        avg_loss += 0.5 * (w * x_list[i] + b - gt_y_list[i]) ** 2
     avg_loss /= n
     return avg_loss
 
