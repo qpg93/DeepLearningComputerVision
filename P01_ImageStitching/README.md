@@ -1,7 +1,6 @@
 # Classical Image Stitching
-| Goal   |                    |
-|:------:|:------------------:|
 | Inputs | Two images         |
+|:-------|:-------------------|
 | Output | One stitched image |  
 
 __Pipeline__
