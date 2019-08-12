@@ -61,16 +61,19 @@ def gradient_descent(X, Ygt, Ypred, Theta, lr):
     :return: (theta0, theta1, theta2) for next model
     '''
     num_samples = len(Ypred)
+    Xmatrix = np.vstack((X, (np.ones_like(X[0]))))
+    dtheta = Xmatrix @ (Ypred - Ygt) / num_samples
+    Theta -= lr * dtheta
+    '''Element-wise
     theta0, theta1, theta2 = Theta
-
     dtheta0 = np.sum((Ypred - Ygt) * X[0]) / num_samples
     dtheta1 = np.sum((Ypred - Ygt) * X[1]) / num_samples
     dtheta2 = np.sum(Ypred - Ygt) / num_samples
-
     theta0 -= lr * dtheta0
     theta1 -= lr * dtheta1
     theta2 -= lr * dtheta2
     Theta = np.array((theta0, theta1, theta2))
+    '''
     return Theta
 
 def train(X, Ygt, training_epoch, learning_rate):

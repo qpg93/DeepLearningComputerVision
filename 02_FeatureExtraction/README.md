@@ -46,7 +46,7 @@ Reference: [SURF: Speeded Up Robust Features](https://www.vision.ee.ethz.ch/~sur
  a. BRISK http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.371.1343&rep=rep1&type=pdf
  b. Orb http://www.willowgarage.com/sites/default/files/orb_final.pdf
 
-### 4. Ramdom Sample Consensus (RANSAC)
+### 4. Random Sample Consensus (RANSAC)
 It is an iterative method to estimate parameters of a mathematical model from a set of observed data that contains outliers, when outliers are to be accorded no influence on the values of the estimates. It also can be interpreted as an outlier detection method.  
 1. Select a random subset of the original data. Call it _hypothetical inliers_.
 2. Fit a model to the set of hypothetical inliers.
@@ -54,9 +54,3 @@ It is an iterative method to estimate parameters of a mathematical model from a 
 4. The estimated model is reasonably good if sufficiently many points have been classified as part of the consensus set.
 5. The model may be improved by reestimating it using all members of the consensus set.
 This procedure is repeated a fixed number of times, each time producing either a model which is rejected because too few points are part of the consensus set, or a refined model together with a corresponding consensus set size. In the latter case, we keep the refined model if its consensus set is larger than the previously saved model.  
-
-Classical Image Stitching  
-follow the instructions shown in the slides  
-inputs are two images  
-ouput is a stitched image  
-in 2-3 weeks
