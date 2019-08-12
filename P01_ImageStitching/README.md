@@ -1,7 +1,7 @@
 # Classical Image Stitching
-| Inputs | Two images         |
-|:-------|:-------------------|
-| Output | One stitched image |  
+| Inputs     | Output             |
+|:-----------|:-------------------|
+| Two images | One stitched image |  
 
 __Pipeline__
 1. Find feature points in each image
