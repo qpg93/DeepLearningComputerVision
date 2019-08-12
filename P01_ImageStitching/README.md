@@ -2,7 +2,8 @@
 | Goal   |                    |
 |:------:|:------------------:|
 | Inputs | Two images         |
-| Output | One stitched image |
+| Output | One stitched image |  
+
 __Pipeline__
 1. Find feature points in each image
 2. Use ___RANSAC___ to find keypoint matches
