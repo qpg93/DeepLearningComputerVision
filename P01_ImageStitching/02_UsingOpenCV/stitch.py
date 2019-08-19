@@ -38,5 +38,3 @@ if status == 0:
 # Otherwise the stitching failed, likely due to not enough keypoints being detected
 else:
     print("[INFO] image stitching failed ({})".format(status))
-
-# Crop only the region of panorama in
