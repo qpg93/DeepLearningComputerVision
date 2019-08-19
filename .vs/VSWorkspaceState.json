@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\02_FeatureExtraction",
+    "\\R01_ImageProcessing"
   ],
-  "SelectedNode": "\\04_BackwardPropagation",
+  "SelectedNode": "\\02_FeatureExtraction\\README.md",
   "PreviewInSolutionExplorer": false
 }
