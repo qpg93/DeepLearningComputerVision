@@ -66,6 +66,7 @@ Le seuil qui minimise la variance intra-classe est recherché à partir de tous 
 * ...
 
 ## 4. Filtrage d'image
+__Flou est un filtre passe-bas__. Un filtre passe-bas est un filtre qui laisse passer les basses fréquences et qui atténue les hautes fréquences.
 ### 4.1 Flou moyen
 > blur(InputArray __src__, OutputArray __dst__, Size __ksize__)
 ### 4.2 Flou de la boîte
@@ -78,8 +79,21 @@ Le seuil qui minimise la variance intra-classe est recherché à partir de tous 
 > bilateralFilter(InputArray __src__, OutputArray __dst__, int __d__, double __sigmaColor__, double __sigmaSpace__)
 
 ## 5. Détection de contours
-### Sobel
-### Scharr
-### Laplacian
-### Canny
-### 
+### 5.1 Filtre de Sobel
+Il combine le flou gaussien et la dérivation différentielle. Il est apprécié pour sa simplicité et sa rapidité d'exécution. Ces qualité posent des problèmes lorsqu'il s'agit de traiter une image complexe.
+> Sobel(InputArray __src__, OutputArray __dst__, int __ddepth__, int __xorder__, int __yorder__, int __ksize__=3, double __scale__=1, double __delta__=0, int __borderType__=BORDER_DEFAULT)
+
+Gx = [-1 0 1; -2 0 2; -1 0 1]  
+Gy = [-1 -2 -1; 0 0 0; 1 2 1]
+### 5.2 Filtre de Scharr
+Il est même rapide que le filtre de Sobel mais plus fort.  
+Gx = [-3 0 3; -10 0 10; -3 0 3]  
+Gy = [-3 -10 -3; 0 0 0; 3 10 3]
+### 5.3 Filtre laplacien
+Laplacian()
+### 5.4 Filtre de Canny (MEILLEUR!)
+{: .gitlab-red}
+Il est bâti autour du filtre de Sobel pour améliorer.  
+* Les filtres triangulaires utilisés par Sobel étant peu efficaces face à une image fortement bruitée, un filtre gaussien est utilisé.  
+* Elle permet d'éliminer des faux contours.
+### 5.5 Filtre dddd
