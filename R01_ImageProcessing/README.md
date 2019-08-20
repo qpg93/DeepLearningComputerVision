@@ -79,6 +79,26 @@ __Flou est un filtre passe-bas__. Un filtre passe-bas est un filtre qui laisse p
 > bilateralFilter(InputArray __src__, OutputArray __dst__, int __d__, double __sigmaColor__, double __sigmaSpace__)
 
 ## 5. Détection de contours
+> cv2.findContours(image, mode, method[, contours[, hierarchy[, offset]]])
+
+* Paramètres
+  * image : l'image dont on veut détecter le contour
+  * mode : 4 modes de détection
+    * cv2.RETR_EXTERNAL : détecter uniquement le contour externe
+    * cv2.RETR_LIST : ne pas établir une hiérarchie de contours
+    * cv2.RETR_CCOMP : établir les contours de 2 hiérarchies, externe et interne
+    * cv2.RETR_TREE : établir un contour avec une arboresence
+  * method : méthode d'approximation de contour
+    * cv2.CHAIN_APPROX_NONE : enregistrer tous les points de contour, la distance des 2 pixels adjacents est inférieure à 1
+   		> max(abs(x1-x2), abs(y1-y2)) == 1
+    * cv2.CHAIN_APPROX_SIMPLE : réduire les éléments en direction horizontale, verticale et diagonale, garder seulement les coordonnées finales sur les directions différentes
+		> pour un contour rectangulaire, il ne faut que 4 points pour enregistrer les informations de contour
+    * cv2.CHAIN_APPROX_TC89_L1 : teh-Chinl chain
+    * cv2.CHAIN_APPROX_TC89_KCOS : teh-Chinl chain
+* Valeurs de retour
+    * le contour lui-même
+    * l'attribut de chaque contour
+
 ### 5.1 Filtre de Sobel
 Il combine le flou gaussien et la dérivation différentielle. Il est apprécié pour sa simplicité et sa rapidité d'exécution. Ces qualité posent des problèmes lorsqu'il s'agit de traiter une image complexe.
 > Sobel(InputArray __src__, OutputArray __dst__, int __ddepth__, int __xorder__, int __yorder__, int __ksize__=3, double __scale__=1, double __delta__=0, int __borderType__=BORDER_DEFAULT)
@@ -90,10 +110,49 @@ Il est même rapide que le filtre de Sobel mais plus fort.
 Gx = [-3 0 3; -10 0 10; -3 0 3]  
 Gy = [-3 -10 -3; 0 0 0; 3 10 3]
 ### 5.3 Filtre laplacien
-Laplacian()
+Il est mieux de faire un filtrage gaussien avant de filtrer de manière laplacienne.  
+> Laplacian(InputArray __src__, OutputArray __dst__, int __ddepth__, int __ksize__=3, double __scale__=1, double __delta__=0, int __borderType__=BORDER_DEFAULT)
 ### 5.4 Filtre de Canny (MEILLEUR!)
-{: .gitlab-red}
 Il est bâti autour du filtre de Sobel pour améliorer.  
-* Les filtres triangulaires utilisés par Sobel étant peu efficaces face à une image fortement bruitée, un filtre gaussien est utilisé.  
-* Elle permet d'éliminer des faux contours.
-### 5.5 Filtre dddd
+* Il est plus efficace face à une image fortement bruitée, un filtre gaussien est utilisé.  
+* Il permet d'éliminer des faux contours.
+> Canny(InputArray __image__, OutputArray __edges__, double __threshold1__, double __threshold2__, int __apertureSize__=3, bool __L2gradient__=false)
+
+## 6. Morphologie mathématique
+La morphologie mathématique est une théorie et technique mathématique et informatique d'analyse de structures qui est liée avec l'algèbre, la théorie des treillis, la topologie et les probabilités.  
+
+Le développement de la morphologie mathématique est inspiré des problèmes de traitement d'images, domaine qui constitue son principal champ d'application. Elle fournit en particulier des outils de filtrage, segmentation, quantification et modélisation d'images. Elle est également utilisable en traitement du signal, par exemple pour filtrer les variations d'une mesure (physique, biologique) au cours du temps.
+
+## 7. Transformation d'image
+### 7.1 Translation
+> cv.warpAffine
+
+### 7.2 Rotation
+Les angles droites restent droites.  
+> cv2.getRotationMatrix2D
+
+### 7.3 Transformation d'isométrie
+Les longueurs des lignes, la superficie et les angles restent inchangés.  
+Degré de liberté : 6
+
+### 7.4 Transformation de similarité
+Similarité = Isomérie + Dilatation  
+Degré de liberté : 7
+
+### 7.5 Transformation affine
+Les lignes en parallèle, l'échelle des longueurs des lignes et l'échelle de la superficie restent inchangées.  
+
+L'application affine combine :
+  * Translation
+  * Dilatation (Zoom/Scale)
+  * Rotation
+  * Retournement (Flip)
+  * Transvection (Shearing)
+
+Il faut fournir 3 points de référence.
+> cv.getAffineTransform
+
+### 7.6 Perspective Transform
+Les superpositions et les birapports de longueur des lignes restent inchangés.  
+Il faut fournir 4 points de référence.
+> cv2.getPerspectiveTransform
