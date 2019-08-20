@@ -156,3 +156,13 @@ Il faut fournir 3 points de référence.
 Les superpositions et les birapports de longueur des lignes restent inchangés.  
 Il faut fournir 4 points de référence.
 > cv2.getPerspectiveTransform
+
+## 8. Outils de détection de zones d'intérêt (Feature detection)
+* LBP (Local Binary Pattern)
+* Gabor : un filtre linéaire dont la réponse impulsionnelle est une sinusoïde modulée par une fonction gaussienne
+* HOG (Histogram of Oriented Gradient)
+* SIFT (Scale-Invariant Feature Transform)
+* Transformée de Hough
+* Histogramme de couleur
+* Harris
+* ...
