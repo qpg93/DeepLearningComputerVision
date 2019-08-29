@@ -9,7 +9,7 @@ inputs:
     k:           maximum number of iterations allowed in the algorithm
     t:           threshold value to determine data points that are fit well by model
     d:           number of close data points required to assert that a model fits well to data
-outpus:
+outputs:
     bestFit:     model parameters which best fit the data (or null if no good model is found)
     
 iterations = 0

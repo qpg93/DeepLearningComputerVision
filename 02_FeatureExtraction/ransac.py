@@ -36,7 +36,7 @@ def ransac(data, model, n_minSample, k_maxIteration, t_errorThreshold, d, debug=
             print('test_err.max()', test_err.max())
             print('numpy.mean(test_err)', np.mean(test_err))
             print('iteration %d:len(alsoinliers) = %d' % (iterations, len(also_inliers)))
-        if len(also_inliers > d):
+        if len(also_inliers)>d:
             betterdata = np.concatenate((maybe_inliers, also_inliers))  # Sample concatenation, combine all inliers
             bettermodel = model.fit(betterdata)
             better_errs = model.get_error(betterdata, bettermodel) # Error is calculated without considering outliers
