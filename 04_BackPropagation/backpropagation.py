@@ -2,7 +2,7 @@
 Must understand:
 * Tanh and the corresponding derivative
 * axis and keepdims
-* bp by coding
+* BP by coding
 * Softmax
 """
 
