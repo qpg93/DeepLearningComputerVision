@@ -12,6 +12,7 @@ import sklearn.linear_model
 
 # Generate dataset
 np.random.seed(0)
+# Make two interleaving half circles
 X, y = sklearn.datasets.make_moons(200, noise=0.2)
 
 num_examples = len(X) # Size of training set
@@ -27,11 +28,11 @@ def calculate_loss(model):
     W1, b1, W2, b2 = model['W1'], model['b1'], model['W2'], model['b2']
     
     z1 = X.dot(W1) + b1
-    a1 = np.tanh(z1)
+    a1 = np.tanh(z1) # Activation function
     
     z2 = a1.dot(W2) + b2
+    # Softmax https://en.wikipedia.org/wiki/Softmax_function
     exp_scores = np.exp(z2)
-    # Softmax
     probs = exp_scores / np.sum(exp_scores, axis=1, keepdims=True) # Probabilities
     # axis=1 means "by row" http://www.shuang0420.com/2016/06/26/numpy%EF%BC%8D%E7%90%86%E8%A7%A3keepdims=True/
     
