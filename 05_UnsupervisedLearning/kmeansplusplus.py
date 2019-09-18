@@ -6,7 +6,7 @@ class KMeans(object):
 
     def __init__(self, centroids=1, init='random', maxIter=300, tol=1e-4, random_seed=0):
         '''
-        :param centers: int
+        :param centroids: int
             Numbers of centroids
         :param init: string
             Method of centroids initialization (random or k-means++)
@@ -33,7 +33,7 @@ class KMeans(object):
         :return: array like, shape = [n_samples]
             Data labels
         '''
-        # Normalize
+        # Normalize data
         X_norm = self._norm(X)
 
         # Choose method of centroid initialization
@@ -46,14 +46,14 @@ class KMeans(object):
         self.labels = np.zeros(X_norm.shape[0])
         # Start iteration
         for _ in range(self.maxIter):
-            for i in range(self.centroids):
+            for i in range(self.centroids): # For each cluster
                 self.labels = self._get_label(X_norm)
                 # Calculate new centroids with the mean of all points in the same cluster
                 new_centroid = np.mean(X_norm[self.labels == i], axis=0)
                 # If centroid movement shorter than threshold, the algorithm converges
                 if self._euc_dist(new_centroid, self.cluster_centroids[i, :]) < self.tol:
                     break
-                # Update centroids
+                # Update centroids if centroid movement is beyond tolerance
                 self.cluster_centroids[i, :] = new_centroid
 
         # Centroids were normalized and it is undone here
@@ -119,6 +119,7 @@ class KMeans(object):
         '''
         return np.sum(np.abs(x - y))
 
+    """
     def _distort_func(self):
         '''
         Distortion Function (to find a good k)
@@ -131,6 +132,7 @@ class KMeans(object):
         for i in range(self.centroids):
             distort += np.sum(self.dist[self.labels == i, i])
         return distort
+    """
 
     def _kMeansPP(self, X):
         '''
@@ -151,6 +153,7 @@ class KMeans(object):
             for i, pts in enumerate(X):
                 dist[i] = self._get_minDist(pts, tmp_centroids)
                 sum += dist[i]
+            # Equal probability between (0, sum), 0 everywhere else
             sum = np.random.uniform(0, sum)
             # Bigger the distance, bigger the weight in probability
             # More possible to select a farther point to be centroid
@@ -187,11 +190,11 @@ class KMeans(object):
         centroids = np.zeros((self.centroids, m))
         for i in range(m):
             centroids[:, i] = np.random.uniform(min(X[:, i]), max(X[:, i]), size=self.centroids)
-
         return centroids
 
 if __name__ == '__main__':
-    X, y = make_blobs(n_samples=300, n_features=2, centers=3,
+    # Generate isotropic Gaussian blobs for clustering
+    X, y = make_blobs(n_samples=200, n_features=2, centers=3,
                       cluster_std=0.5, shuffle=True, random_state=0)
 
     plt.scatter(X[:, 0], X[:, 1], c='white', marker='o', edgecolors='k', s=50)
