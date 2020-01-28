@@ -1,9 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\02_FeatureExtraction",
-    "\\R01_ImageProcessing"
+    "\\01_ImageTransform",
+    "\\P02_MultiClassification",
+    "\\P02_MultiClassification\\Dataset",
+    "\\P02_MultiClassification\\Stage_1 Classes_classification"
   ],
-  "SelectedNode": "\\02_FeatureExtraction\\README.md",
+  "SelectedNode": "\\P02_MultiClassification\\Stage_1 Classes_classification\\Classes_train_annotation.csv",
   "PreviewInSolutionExplorer": false
 }
