@@ -1,11 +1,14 @@
 {
   "ExpandedNodes": [
     "",
-    "\\01_ImageTransform",
+    "\\P01_ImageStitching",
+    "\\P01_ImageStitching\\01_UsingCVSIFT",
+    "\\P01_ImageStitching\\02_UsingCVSIFT",
+    "\\P01_ImageStitching\\02_UsingCVSIFT\\input",
+    "\\P01_ImageStitching\\02_UsingCVSIFT\\output",
     "\\P02_MultiClassification",
-    "\\P02_MultiClassification\\Dataset",
-    "\\P02_MultiClassification\\Stage_1 Classes_classification"
+    "\\P02_MultiClassification\\Dataset"
   ],
-  "SelectedNode": "\\P02_MultiClassification\\Stage_1 Classes_classification\\Classes_train_annotation.csv",
+  "SelectedNode": "\\P01_ImageStitching\\02_UsingCVSIFT\\ImageStitching.py",
   "PreviewInSolutionExplorer": false
 }
