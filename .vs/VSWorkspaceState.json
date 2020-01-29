@@ -2,13 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\P01_ImageStitching",
-    "\\P01_ImageStitching\\01_UsingCVSIFT",
     "\\P01_ImageStitching\\02_UsingCVSIFT",
     "\\P01_ImageStitching\\02_UsingCVSIFT\\input",
-    "\\P01_ImageStitching\\02_UsingCVSIFT\\output",
-    "\\P02_MultiClassification",
-    "\\P02_MultiClassification\\Dataset"
+    "\\P01_ImageStitching\\02_UsingCVSIFT\\output"
   ],
-  "SelectedNode": "\\P01_ImageStitching\\02_UsingCVSIFT\\ImageStitching.py",
+  "SelectedNode": "\\P01_ImageStitching\\02_UsingCVSIFT\\input\\test_1.jpg",
   "PreviewInSolutionExplorer": false
 }

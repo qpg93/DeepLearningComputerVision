@@ -14,14 +14,28 @@
 1. Fusionner les parties superposées des images en fonction des poids basés sur la distance du bord
 1. Enregistrer l'image cousue
 
-## Original images | Images originales
+# Experiment 1
+#### Original images | Images originales
+<img src="input/test_1.jpg" width="300"/> <img src="input/test_2.jpg" width="300"/>
+
+#### Feature points | Points caractéristiques
+<img src="output/test_fp1.jpg" width="300"/> <img src="output/test_fp2.jpg" width="300"/>
+
+#### Best 20 matches | Les meilleurs 20 matchs
+<img src="output/test_fpMatches.jpg" width="600"/>
+
+#### Stitched image | Image cousue
+<img src="output/test_stitchedImg.jpg" width="600"/>
+
+# Experiment 2
+#### Original images | Images originales
 <img src="input/1.jpg" width="300"/> <img src="input/2.jpg" width="300"/>
 
-## Feature points | Points caractéristiques
+#### Feature points | Points caractéristiques
 <img src="output/fp1.jpg" width="300"/> <img src="output/fp2.jpg" width="300"/>
 
-## Best 20 matches | Les meilleurs 20 matchs
+#### Best 20 matches | Les meilleurs 20 matchs
 <img src="output/fpMatches.jpg" width="600"/>
 
-## Stitched image | Image cousue
+#### Stitched image | Image cousue
 <img src="output/stitchedImg.jpg" width="600"/>
