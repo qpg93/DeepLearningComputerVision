@@ -7,18 +7,18 @@
 1. Save the stitched image
 
 # Assemblage d'images
-(projet bas� sur OpenCV)
-1. Identifier des points caract�ristiques ___SURF___ dans chaque image
-1. S�lectionner les 20 meilleurs matchs de points caract�ristiques
-1. Utiliser ___RANSAC___ pour cr�er ___Homography Matrix___ et obtenir la matrice de transformation
-1. Fusionner les parties superpos�es des images en fonction des poids bas�s sur la distance du bord
+(projet basé sur OpenCV)
+1. Identifier des points caractéristiques ___SURF___ dans chaque image
+1. Sélectionner les 20 meilleurs matchs de points caractéristiques
+1. Utiliser ___RANSAC___ pour créer ___Homography Matrix___ et obtenir la matrice de transformation
+1. Fusionner les parties superposées des images en fonction des poids basés sur la distance du bord
 1. Enregistrer l'image cousue
 
 # Experiment 1
 #### Original images | Images originales
 <img src="02_UsingCVSURF/input/test_1.jpg" width="300"/> <img src="02_UsingCVSURF/input/test_2.jpg" width="300"/>
 
-#### Feature points | Points caract�ristiques
+#### Feature points | Points caractéristiques
 <img src="02_UsingCVSURF/output/test_fp1.jpg" width="300"/> <img src="02_UsingCVSURF/output/test_fp2.jpg" width="300"/>
 
 #### Best 20 matches | Les meilleurs 20 matchs
@@ -31,7 +31,7 @@
 #### Original images | Images originales
 <img src="02_UsingCVSURF/input/1.jpg" width="300"/> <img src="02_UsingCVSURF/input/2.jpg" width="300"/>
 
-#### Feature points | Points caract�ristiques
+#### Feature points | Points caractéristiques
 <img src="02_UsingCVSURF/output/fp1.jpg" width="300"/> <img src="02_UsingCVSURF/output/fp2.jpg" width="300"/>
 
 #### Best 20 matches | Les meilleurs 20 matchs
