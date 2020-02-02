@@ -29,7 +29,7 @@ class Net(nn.Module):
         x = self.maxpool2(x)
         x = self.relu2(x)
 
-        # print(x.shape)
+        #print(x.shape)
         x = x.view(-1, 6 * 123 * 123)
         x = self.fc1(x)
         x = self.relu3(x)

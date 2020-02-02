@@ -11,11 +11,12 @@ from torch import optim
 from torch.optim import lr_scheduler
 import copy
 
-ROOT_DIR = '../Dataset/'
-TRAIN_DIR = 'train/'
-VAL_DIR = 'val/'
-TRAIN_ANNO = 'Classes_train_annotation.csv'
-VAL_ANNO = 'Classes_val_annotation.csv'
+CURRENT_DIR = os.path.dirname(__file__)
+ROOT_DIR = os.path.join(os.path.dirname(CURRENT_DIR), 'Dataset')
+TRAIN_DIR = os.path.join(ROOT_DIR, 'train')
+VAL_DIR = os.path.join(ROOT_DIR, 'val')
+TRAIN_ANNO = os.path.join(CURRENT_DIR, 'Classes_train_annotation.csv')
+VAL_ANNO = os.path.join(CURRENT_DIR, 'Classes_val_annotation.csv')
 CLASSES = ['Mammals', 'Birds']
 
 class MyDataset():
@@ -27,7 +28,7 @@ class MyDataset():
         self.transform = transform
 
         if not os.path.isfile(self.annotations_file):
-            print(self.annotations_file + 'does not exist!')
+            print(self.annotations_file + ' does not exist!')
         self.file_info = pd.read_csv(annotations_file, index_col=0)
         self.size = len(self.file_info)
 
@@ -37,7 +38,7 @@ class MyDataset():
     def __getitem__(self, idx):
         image_path = self.file_info['path'][idx]
         if not os.path.isfile(image_path):
-            print(image_path + '  does not exist!')
+            print(image_path + ' does not exist!')
             return None
 
         image = Image.open(image_path).convert('RGB')
@@ -56,11 +57,11 @@ val_transforms = transforms.Compose([transforms.Resize((500, 500)),
                                      transforms.ToTensor()
                                      ])
 
-train_dataset = MyDataset(root_dir= ROOT_DIR + TRAIN_DIR,
+train_dataset = MyDataset(root_dir= TRAIN_DIR,
                           annotations_file= TRAIN_ANNO,
                           transform=train_transforms)
 
-test_dataset = MyDataset(root_dir= ROOT_DIR + VAL_DIR,
+test_dataset = MyDataset(root_dir= VAL_DIR,
                          annotations_file= VAL_ANNO,
                          transform=val_transforms)
 
@@ -141,7 +142,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=50):
                 print('Best val classes Acc: {:.2%}'.format(best_acc))
 
     model.load_state_dict(best_model_wts)
-    torch.save(model.state_dict(), 'best_model.pt')
+    torch.save(model.state_dict(), os.path.join(CURRENT_DIR, 'best_model.pt'))
     print('Best val classes Acc: {:.2%}'.format(best_acc))
     return model, Loss_list,Accuracy_list_classes
 
@@ -160,8 +161,8 @@ plt.plot(x, y2, color="b", linestyle="-", marker="o", linewidth=1, label="train"
 plt.legend()
 plt.title('train and val loss vs. epoches')
 plt.ylabel('loss')
-plt.savefig("train and val loss vs epoches.jpg")
-plt.close('all') # 关闭图 0
+plt.savefig(os.path.join(CURRENT_DIR, "train and val loss vs epoches.png"))
+plt.close('all') # Close figure
 
 y5 = Accuracy_list_classes["train"]
 y6 = Accuracy_list_classes["val"]
@@ -170,7 +171,7 @@ plt.plot(x, y6, color="b", linestyle="-", marker=".", linewidth=1, label="val")
 plt.legend()
 plt.title('train and val Classes_acc vs. epoches')
 plt.ylabel('Classes_accuracy')
-plt.savefig("train and val Classes_acc vs epoches.jpg")
+plt.savefig(os.path.join(CURRENT_DIR, "train and val Classes_acc vs epoches.png"))
 plt.close('all')
 
 ############################################ Visualization ###############################################
@@ -190,4 +191,4 @@ def visualize_model(model):
             plt.title('predicted classes: {}\n ground-truth classes:{}'.format(CLASSES[preds_classes],CLASSES[labels_classes]))
             plt.show()
 
-visualize_model(model)
+#visualize_model(model)
