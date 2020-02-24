@@ -1,6 +1,6 @@
 import os
 import matplotlib.pyplot as plt
-from torch.utils.data import  DataLoader
+from torch.utils.data import DataLoader
 import torch
 from Classes_Network import *
 from torchvision.transforms import transforms
@@ -82,15 +82,16 @@ def visualize_dataset():
     plt.show()
 visualize_dataset()
 
-def train_model(model, criterion, optimizer, scheduler, num_epochs=50):
+def train_model(model, criterion, optimizer, num_epochs=50, lam=1.0):
     Loss_list = {'train': [], 'val': []}
     Accuracy_list_classes = {'train': [], 'val': []}
 
+    # Deep copy is copy while shallow copy is just reference
     best_model_wts = copy.deepcopy(model.state_dict())
     best_acc = 0.0
 
     for epoch in range(num_epochs):
-        print('Epoch {}/{}'.format(epoch, num_epochs - 1))
+        print('Epoch {}/{}'.format(epoch + 1, num_epochs))
         print('-*' * 10)
 
         # Each epoch has a training and validation phase
@@ -116,7 +117,10 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=50):
 
                     _, preds_classes = torch.max(x_classes, 1)
 
-                    loss = criterion(x_classes, labels_classes)
+                    reg = 0.
+                    for param in model.parameters():
+                        reg += torch.norm(param)
+                    loss = criterion(x_classes, labels_classes) + lam * reg
 
                     if phase == 'train':
                         loss.backward()
@@ -136,7 +140,6 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=50):
             print('{} Loss: {:.4f}  Acc_classes: {:.2%}'.format(phase, epoch_loss,epoch_acc_classes))
 
             if phase == 'val' and epoch_acc > best_acc:
-
                 best_acc = epoch_acc_classes
                 best_model_wts = copy.deepcopy(model.state_dict())
                 print('Best val classes Acc: {:.2%}'.format(best_acc))
@@ -146,6 +149,45 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=50):
     print('Best val classes Acc: {:.2%}'.format(best_acc))
     return model, Loss_list,Accuracy_list_classes
 
+
+criterion = nn.CrossEntropyLoss()
+for network_class in ['original', 'morelayer', 'withnorm']:
+    for method in ['SGD', 'Adam']:
+        if method == 'SGD':
+            lrs = [0.01, 0.1, 1.0]
+        else:
+            lrs = [1e-3, 1e-4, 1e-5]
+        
+        for lr in lrs:
+            if network_class == 'original':
+                network = Net().to(device)
+            elif network_class == 'morelayer':
+                network = Net_morelayer().to(device)
+            else:
+                network = Net_withnorm().to(device)
+
+            if method == 'SGD':
+                optimizer = optim.SGD(network.parameters(), lr=lr, momentum=0.9)
+            else:
+                optimizer = optim.Adam(network.parameters(), lr=lr)
+            
+            for lam in [0, 0.1, 1.0]:
+                print(network_class, method, lr, lam)
+                num_epochs = 30
+                model, Loss_list, Accuracy_list_classes = train_model(network, criterion, optimizer, num_epochs=num_epochs, lam=lam)
+
+                x = range(0, num_epochs)
+                y5 = Accuracy_list_classes["train"]
+                y6 = Accuracy_list_classes["val"]
+                plt.plot(x, y5, color="r", linestyle="-", marker=".", linewidth=1, label="train")
+                plt.plot(x, y6, color="b", linestyle="-", marker=".", linewidth=1, label="val")
+                plt.legend()
+                plt.title('train and val Classes_acc vs. epoches')
+                plt.ylabel('Classes_accuracy')
+                plt.savefig(CURRENT_DIR + "/Net_" + network_class + "_" + method + "_lr_" + str(lr) + "_lam_" + str(lam) + ".png")
+                plt.close('all')
+
+"""
 network = Net().to(device)
 optimizer = optim.SGD(network.parameters(), lr=0.01, momentum=0.9)
 criterion = nn.CrossEntropyLoss()
@@ -163,18 +205,11 @@ plt.title('train and val loss vs. epoches')
 plt.ylabel('loss')
 plt.savefig(os.path.join(CURRENT_DIR, "train and val loss vs epoches.png"))
 plt.close('all') # Close figure
+"""
 
-y5 = Accuracy_list_classes["train"]
-y6 = Accuracy_list_classes["val"]
-plt.plot(x, y5, color="r", linestyle="-", marker=".", linewidth=1, label="train")
-plt.plot(x, y6, color="b", linestyle="-", marker=".", linewidth=1, label="val")
-plt.legend()
-plt.title('train and val Classes_acc vs. epoches')
-plt.ylabel('Classes_accuracy')
-plt.savefig(os.path.join(CURRENT_DIR, "train and val Classes_acc vs epoches.png"))
-plt.close('all')
+############################################ Visualization ################################################
 
-############################################ Visualization ###############################################
+"""
 def visualize_model(model):
     model.eval()
     with torch.no_grad():
@@ -191,4 +226,5 @@ def visualize_model(model):
             plt.title('predicted classes: {}\n ground-truth classes:{}'.format(CLASSES[preds_classes],CLASSES[labels_classes]))
             plt.show()
 
-#visualize_model(model)
+visualize_model(model)
+"""

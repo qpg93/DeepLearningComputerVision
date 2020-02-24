@@ -1,12 +1,14 @@
 {
   "ExpandedNodes": [
     "",
-    "\\P01_ImageStitching",
-    "\\P01_ImageStitching\\02_UsingCVSURF",
+    "\\03_GradientDescent",
+    "\\04_BackPropagation",
     "\\P02_MultiClassification",
     "\\P02_MultiClassification\\Dataset",
     "\\P02_MultiClassification\\Dataset\\train",
-    "\\P02_MultiClassification\\Stage_1 Classes_classification"
+    "\\P02_MultiClassification\\Dataset\\val",
+    "\\P02_MultiClassification\\Stage_1 Classes_classification",
+    "\\P02_MultiClassification\\Stage_1 Classes_classification\\__pycache__"
   ],
   "SelectedNode": "\\P02_MultiClassification\\Stage_1 Classes_classification\\Classes_classification.py",
   "PreviewInSolutionExplorer": false
