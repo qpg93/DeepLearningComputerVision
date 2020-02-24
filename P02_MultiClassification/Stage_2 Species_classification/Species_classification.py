@@ -11,11 +11,12 @@ from torch import optim
 from torch.optim import lr_scheduler
 import copy
 
-ROOT_DIR = '../Dataset/'
-TRAIN_DIR = 'train/'
-VAL_DIR = 'val/'
-TRAIN_ANNO = 'Species_train_annotation.csv'
-VAL_ANNO = 'Species_val_annotation.csv'
+CURRENT_DIR = os.path.dirname(__file__)
+ROOT_DIR = os.path.join(os.path.dirname(CURRENT_DIR), 'Dataset')
+TRAIN_DIR = os.path.join(ROOT_DIR, 'train')
+VAL_DIR = os.path.join(ROOT_DIR, 'val')
+TRAIN_ANNO = os.path.join(CURRENT_DIR, 'Species_train_annotation.csv')
+VAL_ANNO = os.path.join(CURRENT_DIR, 'Species_val_annotation.csv')
 CLASSES = ['Mammals', 'Birds']
 SPECIES = ['rabbits', 'rats', 'chickens']
 
@@ -82,15 +83,16 @@ def visualize_dataset():
     plt.show()
 visualize_dataset()
 
-def train_model(model, criterion, optimizer, scheduler, num_epochs=50):
+def train_model(model, criterion, optimizer, num_epochs=50, lam=1.0):
     Loss_list = {'train': [], 'val': []}
     Accuracy_list_species = {'train': [], 'val': []}
 
+    # Deep copy is copy while shallow copy is just reference
     best_model_wts = copy.deepcopy(model.state_dict())
     best_acc = 0.0
 
     for epoch in range(num_epochs):
-        print('Epoch {}/{}'.format(epoch, num_epochs - 1))
+        print('Epoch {}/{}'.format(epoch + 1, num_epochs))
         print('-*' * 10)
 
         # Each epoch has a training and validation phase
@@ -115,7 +117,10 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=50):
 
                     _, preds_species = torch.max(x_species, 1)
 
-                    loss = criterion(x_species, labels_species)
+                    reg = 0.
+                    for param in model.parameters():
+                        reg += torch.norm(param)
+                    loss = criterion(x_species, labels_species) + lam * reg
 
                     if phase == 'train':
                         loss.backward()
@@ -145,6 +150,44 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=50):
     print('Best val species Acc: {:.2%}'.format(best_acc))
     return model, Loss_list,Accuracy_list_species
 
+criterion = nn.CrossEntropyLoss()
+for network_species in ['withnorm', 'original', 'morelayer']:
+    for method in ['SGD', 'Adam']:
+        if method == 'SGD':
+            lrs = [0.01, 0.1, 1.0]
+        else:
+            lrs = [1e-3, 1e-4, 1e-5]
+
+        for lr in lrs:
+            if network_species == 'original':
+                network = Net().to(device)
+            elif network_species == 'morelayer':
+                network = Net_morelayer().to(device)
+            else:
+                network = Net_withnorm().to(device)
+
+            if method == 'SGD':
+                optimizer = optim.SGD(network.parameters(), lr=lr, momentum=0.9)
+            else:
+                optimizer = optim.Adam(network.parameters(), lr=lr)
+
+            for lam in [0, 0.1, 1.0]:
+                print(network_species, method, lr, lam)
+                num_epochs = 30
+                model, Loss_list, Accuracy_list_species = train_model(network, criterion, optimizer, num_epochs=num_epochs, lam=lam)
+
+                x = range(0, num_epochs)
+                y5 = Accuracy_list_species["train"]
+                y6 = Accuracy_list_species["val"]
+                plt.plot(x, y5, color="r", linestyle="-", marker=".", linewidth=1, label="train")
+                plt.plot(x, y6, color="b", linestyle="-", marker=".", linewidth=1, label="val")
+                plt.legend()
+                plt.title('train and val Species acc vs. epoches')
+                plt.ylabel('Species accuracy')
+                plt.savefig(CURRENT_DIR + "/Net_" + network_species + "_" + method + "_lr_" + str(lr) + "_lam_" + str(lam) + ".png")
+                plt.close('all')
+
+"""
 network = Net().to(device)
 optimizer = optim.SGD(network.parameters(), lr=0.01, momentum=0.9)
 criterion = nn.CrossEntropyLoss()
@@ -161,7 +204,7 @@ plt.legend()
 plt.title('train and val loss vs. epoches')
 plt.ylabel('loss')
 plt.savefig("train and val loss vs epoches.jpg")
-plt.close('all') # 关闭图 0
+plt.close('all')
 
 y5 = Accuracy_list_species["train"]
 y6 = Accuracy_list_species["val"]
@@ -172,8 +215,10 @@ plt.title('train and val Species acc vs. epoches')
 plt.ylabel('Species accuracy')
 plt.savefig("train and val Species acc vs epoches.jpg")
 plt.close('all')
+"""
 
 ######################################## Visualization ##################################
+"""
 def visualize_model(model):
     model.eval()
     with torch.no_grad():
@@ -191,3 +236,4 @@ def visualize_model(model):
             plt.show()
 
 visualize_model(model)
+"""

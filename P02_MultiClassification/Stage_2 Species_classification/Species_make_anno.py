@@ -2,16 +2,19 @@ import pandas as pd
 import os
 from PIL import Image
 
-ROOTS = '../Dataset/'
+CURRENT_DIR = os.path.dirname(__file__)
+ROOTS = os.path.join(os.path.dirname(CURRENT_DIR), 'Dataset')
 PHASE = ['train', 'val']
-SPECIES = ['rabbits', 'rats', 'chickens']  # [0,1,2]
+CLASSES = ['Mammals', 'Birds']  # [0,1]
+SPECIES = ['rabbits', 'rats', 'chickens'] # [0,1,2]
 
 DATA_info = {'train': {'path': [], 'species': []},
              'val': {'path': [], 'species': []}
              }
 for p in PHASE:
     for s in SPECIES:
-        DATA_DIR = ROOTS + p + '\\' + s
+        DATA_DIR = os.path.join(ROOTS, p, s,)
+        print(DATA_DIR)
         DATA_NAME = os.listdir(DATA_DIR)
 
         for item in DATA_NAME:
@@ -20,7 +23,10 @@ for p in PHASE:
             except OSError:
                 pass
             else:
-                DATA_info[p]['path'].append(os.path.join(DATA_DIR, item))
+                PATH = os.path.join(DATA_DIR, item)
+                PATH = PATH.replace('\\', '/')
+                #print(PATH)
+                DATA_info[p]['path'].append(PATH)
                 if s == 'rabbits':
                     DATA_info[p]['species'].append(0)
                 elif s == 'rats':
@@ -29,5 +35,5 @@ for p in PHASE:
                     DATA_info[p]['species'].append(2)
 
     ANNOTATION = pd.DataFrame(DATA_info[p])
-    ANNOTATION.to_csv('Species_%s_annotation.csv' % p)
+    ANNOTATION.to_csv(os.path.join(CURRENT_DIR, 'Species_%s_annotation.csv' % p))
     print('Species_%s_annotation file is saved.' % p)
