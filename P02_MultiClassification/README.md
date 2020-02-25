@@ -120,7 +120,8 @@ Predict images with the trained model so as to visualize directly the effect of 
 
 ##### Stage 3: Findings
 1. No matter which type of minization is used, the accuracies converge to about 70% for classes and about 50% for species. The two-step method might be a little better. 
-2. It seems that weight=1.5 is a little instable.
+2. Data augmentation is necessary if we want to improve the result. The current amount of images (<1000) is way too small.
+3. It seems that weight=1.5 is a little instable.
 
 ---
 Ce projet utilise les 3 ensembles de données pour faire 3 tâches :
