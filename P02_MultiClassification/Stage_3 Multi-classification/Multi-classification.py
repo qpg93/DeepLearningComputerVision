@@ -98,10 +98,12 @@ def train_model(model, data_loaders, method="average", num_epoches=30,
     Accuracy_list_species = {'train':[], 'val':[]}
 
     optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
-    scheduler = lr_scheduler.StepLR(optimizer, step_size=1, gamma=0.5)
+    # Decay LR by a factor of 0.1 every 1 epoch
+    scheduler = lr_scheduler.StepLR(optimizer, step_size=1, gamma=0.1)
     criterion_classes = nn.CrossEntropyLoss(weight=torch.tensor([1.0, 2.0]).cuda())
     criterion_species = nn.CrossEntropyLoss()
 
+    # state_dict() returns a dictionary containing a whole state of the module
     best_model_wts = copy.deepcopy(model.state_dict())
     best_acc = 0.0
 
@@ -122,14 +124,17 @@ def train_model(model, data_loaders, method="average", num_epoches=30,
                 inputs = data['image'].cuda()
                 label_classes = torch.tensor(data['classes']).cuda()
                 label_species = torch.tensor(data['species']).cuda()
+                # clean the gradients of all optimizer
                 optimizer.zero_grad()
                 weight = torch.ones(len(inputs)).cuda()
 
+                # enable or disable grads based on its argument mode
                 with torch.set_grad_enabled(phase == 'train'):
                     x_classes, x_species = model(inputs)
                     x_classes = x_classes.view(-1, 2)
                     x_species = x_species.view(-1, 3)
                     
+                    # return the index of max value
                     _, preds_classes = torch.max(x_classes, 1)
                     _, preds_species = torch.max(x_species, 1)
 
