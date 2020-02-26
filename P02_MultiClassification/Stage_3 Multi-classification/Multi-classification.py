@@ -7,6 +7,7 @@ import random
 from Multi_Network import *
 
 import torch
+import torch.nn as nn
 from torch.utils.data import DataLoader
 from torchvision.transforms import transforms
 from torch import optim
