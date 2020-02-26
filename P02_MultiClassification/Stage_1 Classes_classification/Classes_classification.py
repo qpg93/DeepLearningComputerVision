@@ -120,7 +120,7 @@ def train_model(model, criterion, optimizer, num_epochs=50, lam=1.0):
                     reg = 0.
                     for param in model.parameters():
                         reg += torch.norm(param)
-                    loss = criterion(x_classes, labels_classes) + lam * reg
+                    loss = criterion(preds_classes, labels_classes) + lam * reg
 
                     if phase == 'train':
                         loss.backward()
