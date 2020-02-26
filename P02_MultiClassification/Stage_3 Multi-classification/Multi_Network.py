@@ -2,10 +2,19 @@ import torch.nn as nn
 import torchvision
 import torch.nn.functional as F
 
+"""
+input_image format should be N x C x H x W
+input_image = torch.FloatTensor(1, 28, 28)
+input_image = Variable(input_image)
+input_image = input_image.unsqueeze(0) # 1 x 1 x 28 x 28
+here, input_image = batch (128) x 3 (RGB) x 500 x 500
+"""
+
 class Net(nn.Module):
     def __init__(self):
-        super(Net, self).__init__()
-        self.conv1 = nn.Conv2d(3, 3, 3)
+        super(Net, self).__init__() # must run the parent constructor
+        self.conv1 = nn.Conv2d(3, 3, 3) # in_channels, out_channels, kernel_size, stride=1, padding=0
+        # 3 in_channels(RGB image), 3 kernels(3 3x3x3)
         self.maxpool1 = nn.MaxPool2d(kernel_size=2)
         self.relu1 = nn.ReLU(inplace=True)
 
@@ -33,7 +42,7 @@ class Net(nn.Module):
         x = x.view(-1, 6 * 123 * 123)
         x = self.fc1(x)
         x = self.relu3(x)
-        x = F.dropout(x, training=self.training)
+        x = F.dropout(x, training=self.training) #random dropout for training phase, static for testing
 
         x_classes = self.fc2_classes(x)
         # x_classes = self.softmax(x_classes)
