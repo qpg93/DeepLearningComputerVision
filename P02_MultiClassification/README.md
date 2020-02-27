@@ -1,7 +1,7 @@
 # Animal Multi-classification | Multi-classification des animaux
 
-[English](#0.-Introduction)  
-[Français](#0.-Introduction-fr)
+[English](#0-Introduction)  
+[Français](#0-Introduction-fr)
 
 
 ### 0. Introduction
