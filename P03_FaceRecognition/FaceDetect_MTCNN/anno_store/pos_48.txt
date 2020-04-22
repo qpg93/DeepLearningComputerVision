@@ -1,0 +1,8 @@
+C:\Users\pengq\Documents\DeepLearningComputerVision\P03_FaceRecognition\FaceDetect_MTCNN\data_set\train\48/positive\0.jpg 1 0.04 -0.08 0.05 0.31
+C:\Users\pengq\Documents\DeepLearningComputerVision\P03_FaceRecognition\FaceDetect_MTCNN\data_set\train\48/positive\1.jpg 1 -0.04 -0.19 -0.02 0.22
+C:\Users\pengq\Documents\DeepLearningComputerVision\P03_FaceRecognition\FaceDetect_MTCNN\data_set\train\48/positive\2.jpg 1 0.15 -0.10 -0.06 -0.01
+C:\Users\pengq\Documents\DeepLearningComputerVision\P03_FaceRecognition\FaceDetect_MTCNN\data_set\train\48/positive\3.jpg 1 0.18 -0.07 0.04 0.11
+C:\Users\pengq\Documents\DeepLearningComputerVision\P03_FaceRecognition\FaceDetect_MTCNN\data_set\train\48/positive\4.jpg 1 -0.01 -0.16 -0.16 0.01
+C:\Users\pengq\Documents\DeepLearningComputerVision\P03_FaceRecognition\FaceDetect_MTCNN\data_set\train\48/positive\5.jpg 1 0.09 0.02 0.02 0.31
+C:\Users\pengq\Documents\DeepLearningComputerVision\P03_FaceRecognition\FaceDetect_MTCNN\data_set\train\48/positive\6.jpg 1 0.12 0.04 -0.09 0.12
+C:\Users\pengq\Documents\DeepLearningComputerVision\P03_FaceRecognition\FaceDetect_MTCNN\data_set\train\48/positive\7.jpg 1 -0.02 -0.07 -0.04 0.27
